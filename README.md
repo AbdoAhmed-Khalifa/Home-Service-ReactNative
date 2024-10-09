@@ -14,7 +14,6 @@ Welcome to the **Home Service** mobile app! This project connects users with loc
 - **React Native**: Build native apps using React.
 - **Expo**: A framework and platform for universal React applications.
 - **TypeScript**: Type-safe code for reliability.
-- **Tailwind CSS (with NativeWind)**: Utility-first CSS framework adapted for React Native.
 - **Clerk or NextAuth**: Authentication for React Native apps using Expo.
 
 ## Installation
