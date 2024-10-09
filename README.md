@@ -1,50 +1,55 @@
-# Welcome to your Expo app 👋
+# Home Service (React Native)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to the **Home Service** mobile app! This project connects users with local service providers for home services like cleaning, repair, painting, plumbing, and electrical work, now available as a cross-platform mobile application built with React Native and Expo.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Service Categories**: Users can browse and select from various home services.
+- **Service Providers**: Discover and hire local professionals.
+- **User Authentication**: Secure login and registration using Expo and modern authentication methods like OAuth.
+- **Mobile-Optimized UI**: A mobile-first design for seamless interaction across iOS and Android.
+
+## Technologies Used
+
+- **React Native**: Build native apps using React.
+- **Expo**: A framework and platform for universal React applications.
+- **TypeScript**: Type-safe code for reliability.
+- **Tailwind CSS (with NativeWind)**: Utility-first CSS framework adapted for React Native.
+- **Clerk or NextAuth**: Authentication for React Native apps using Expo.
+
+## Installation
+
+To get started with the mobile app:
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/AbdoAhmed-Khalifa/Home-Service-ReactNative.git
+   ```
+
+2. **Navigate to the Project Directory**
+
+   ```bash
+   cd Home-Service-ReactNative
+   ```
+
+3. **Install Dependencies**
 
    ```bash
    npm install
    ```
 
-2. Start the app
+4. **Set Up Environment Variables**
+
+   Create a `.env` file in the root directory of the project and add your environment variables, referring to `.env.example` for guidance.
+
+5. **Start the Expo Development Server**
 
    ```bash
-    npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+6. **Run the App**
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+   - On iOS: Use the Expo Go app or Xcode simulator.
+   - On Android: Use the Expo Go app or Android Studio emulator.
