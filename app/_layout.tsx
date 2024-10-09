@@ -1,37 +1,84 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import * as SecureStore from 'expo-secure-store';
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
+import { Slot } from 'expo-router';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 3, // Retry failed requests 3 times
+      staleTime: 1000 * 60 * 5, // Data remains fresh for 5 minutes
+      refetchOnWindowFocus: false, // Don't refetch on app focus
+      refetchOnReconnect: true, // Refetch on network reconnect
+    },
+  },
+});
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  const [loaded, error] = useFonts({
+    'Outfit-Black': require('@/assets/fonts/Outfit-Black.ttf'),
+    'Outfit-Bold': require('@/assets/fonts/Outfit-Bold.ttf'),
+    'Outfit-ExtraBold': require('@/assets/fonts/Outfit-ExtraBold.ttf'),
+    'Outfit-ExtraLight': require('@/assets/fonts/Outfit-ExtraLight.ttf'),
+    'Outfit-Light': require('@/assets/fonts/Outfit-Light.ttf'),
+    'Outfit-Medium': require('@/assets/fonts/Outfit-Medium.ttf'),
+    'Outfit-Regular': require('@/assets/fonts/Outfit-Regular.ttf'),
+    'Outfit-SemiBold': require('@/assets/fonts/Outfit-SemiBold.ttf'),
   });
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded || error) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, error]);
 
-  if (!loaded) {
+  if (!loaded && !error) {
     return null;
   }
 
+  const tokenCache = {
+    async getToken(key: string) {
+      try {
+        const item = await SecureStore.getItemAsync(key);
+        if (item) {
+          console.log(`${key} was used 🔐 \n`);
+        } else {
+          console.log('No values stored under key: ' + key);
+        }
+        return item;
+      } catch (error) {
+        console.error('SecureStore get item error: ', error);
+        await SecureStore.deleteItemAsync(key);
+        return null;
+      }
+    },
+    async saveToken(key: string, value: string) {
+      try {
+        return SecureStore.setItemAsync(key, value);
+      } catch (err) {
+        return;
+      }
+    },
+  };
+
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+  if (!publishableKey) {
+    throw new Error(
+      'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
+    );
+  }
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
+      <ClerkLoaded>
+        <QueryClientProvider client={queryClient}>
+          <Slot />
+        </QueryClientProvider>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 }
